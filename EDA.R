@@ -60,13 +60,40 @@ penguins |>
 
 ### Second method
 
-Penguins |>  mutate(
+penguin_clean <- Penguins |> 
+  mutate(
   across(is.character, as.factor),
   year = as.integer(year)
 ) |>
   filter(!is.na(sex))
 
-## Handling sex missing data ------------------
-
-
 ## Univariate analysis
+
+penguin_clean$species
+
+penguin_clean |> 
+  count(species)
+
+table(penguin_clean$species)
+
+### Visualization
+
+ggplot(
+  data = penguin_clean, 
+  mapping = aes(species)) +
+  geom_bar(
+    colour = "red",
+    fill = "blue")+
+  geom_text(
+    stat = "count",
+    aes(label = after_stat(count)),
+    vjust = -0.5,
+    size = 5
+  ) +
+  labs(
+    x = "species",
+    y = "counts",
+    title = "Frequency of Penguins in the Behen Archipalago",
+    caption = "Data Source: palmerspenguins Package | Graphic by: Deborah Elesie"
+  ) +
+  theme_minimal(base_size = 16)
